@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, My Love 💕</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Sacramento&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#FFF9FA',
+                        blush: {
+                            50: '#fff5f7',
+                            100: '#ffe4e8',
+                            200: '#ffd1dc',
+                            300: '#f9a3c2',
+                            400: '#f46c9b',
+                            500: '#eb3b7a',
+                            600: '#d71f5c',
+                        },
+                        rose: {
+                            gold: '#b76e79',
+                            dark: '#5c1d2e',
+                            accent: '#f2a6ac',
+                            dusty: '#d8a7b1',
+                        },
+                        lavender: {
+                            light: '#f2e9f4',
+                            DEFAULT: '#9c8298',
+                        },
+                        gold: {
+                            light: '#f7e7ce',
+                            DEFAULT: '#d4af37',
+                            dark: '#aa820a',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        cursive: ['Dancing Script', 'cursive'],
+                        handwriting: ['Great Vibes', 'cursive'],
+                        letter: ['Sacramento', 'cursive'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glow': 'glow 2.5s ease-in-out infinite alternate',
+                        'sparkle': 'sparkle 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-12px)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 15px rgba(255, 209, 220, 0.6)' },
+                            '100%': { boxShadow: '0 0 30px rgba(244, 108, 155, 0.8), 0 0 15px rgba(247, 231, 206, 0.6)' }
+                        },
+                        sparkle: {
+                            '0%, 100%': { opacity: 0.3, transform: 'scale(0.8)' },
+                            '50%': { opacity: 1, transform: 'scale(1.2)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Dreamy Soft Aesthetics */
+        body {
+            background: linear-gradient(135deg, #fff9fa 0%, #ffe4e8 40%, #f2e9f4 75%, #ffd1dc 100%);
+            color: #5c1d2e;
+            overflow-x: hidden;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 35px 0 rgba(235, 59, 122, 0.06);
+        }
+
+        .parchment-sheet {
+            background: linear-gradient(to bottom, #fffdfa 0%, #fff8f0 100%);
+            box-shadow: 0 15px 40px rgba(92, 29, 46, 0.12), inset 0 0 80px rgba(247, 231, 206, 0.4);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        /* Perspective and Flip Cards */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+
+        .backface-hidden {
+            backface-visibility: hidden;
+        }
+
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fff5f7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f9a3c2;
+            border-radius: 4px;
+        }
+
+        /* Floating Background Particles Canvas */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Wax Seal Style */
+        .wax-seal {
+            background: radial-gradient(circle, #eb3b7a 0%, #d71f5c 70%, #a61242 100%);
+            box-shadow: 0 4px 10px rgba(215, 31, 92, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Typewriter Cursor */
+        .typewriter-cursor::after {
+            content: '|';
+            animation: blink 0.8s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Print styles for Special Letter */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printableLetter, #printableLetter * {
+                visibility: visible;
+            }
+            #printableLetter {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                padding: 20px;
+                background: white !important;
+                color: black !important;
+                box-shadow: none !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans relative">
+
+    <!-- Floating Soft Background Canvas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Top Navigation / Ambient Music Bar -->
+    <header class="fixed top-0 left-0 right-0 z-50 px-4 py-3 glass-card border-b border-white/80 flex justify-between items-center transition-all duration-300">
+        <div class="flex items-center space-x-2">
+            <span class="text-2xl animate-pulse">🌸</span>
+            <span class="font-cursive text-2xl text-blush-600 font-bold tracking-wide">My Aneeba</span>
+        </div>
+        
+        <!-- Music Player Toggle -->
+        <div class="flex items-center space-x-3 bg-white/80 px-4 py-1.5 rounded-full shadow-sm border border-blush-200">
+            <button id="musicToggleBtn" onclick="toggleAudio()" class="w-8 h-8 rounded-full bg-gradient-to-r from-blush-400 to-blush-500 text-white flex items-center justify-center hover:scale-105 transition shadow-sm focus:outline-none">
+                <i id="musicIcon" class="fas fa-play text-xs"></i>
+            </button>
+            <div class="hidden sm:flex flex-col text-xs">
+                <span class="font-medium text-rose-dark">Romantic Piano Chords</span>
+                <span id="musicStatus" class="text-rose-dusty text-[10px]">Tap to play soft ambient music</span>
+            </div>
+            <div class="flex items-center space-x-1 pl-2 border-l border-blush-200">
+                <button onclick="setVolume(0.15)" class="text-rose-dusty hover:text-blush-600 text-xs px-1" title="Soft"><i class="fas fa-volume-down"></i></button>
+                <button onclick="setVolume(0.4)" class="text-rose-dusty hover:text-blush-600 text-xs px-1" title="Louder"><i class="fas fa-volume-up"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative z-10 pt-20">
+
+        <!-- Soft Hero Banner -->
+        <section class="min-h-[85vh] flex flex-col justify-center items-center px-4 text-center relative py-12">
+            <div class="inline-block mb-4 px-5 py-2 rounded-full bg-white/80 text-blush-600 font-medium text-xs sm:text-sm tracking-wider uppercase shadow-sm border border-blush-200 animate-float">
+                <i class="fas fa-sparkles text-gold mr-1.5"></i> Distance means so little when someone means so much
+            </div>
+            
+            <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-rose-dark font-bold leading-tight mb-4">
+                Happy Birthday, <br class="sm:hidden" />
+            <span class="font-handwriting text-blush-500 font-normal text-6xl sm:text-8xl md:text-9xl block my-2 drop-shadow-sm">My Love</span>
+            </h1>
+
+            <p class="max-w-2xl text-base sm:text-lg text-rose-dark/80 font-light leading-relaxed mb-10 px-4">
+                To the girl who holds my heart, Today is all about celebrating your sweetness, your laugh, and the endless joy you bring into my life.
+            </p>
+
+            <!-- Scroll CTA -->
+            <a href="#letters-section" class="inline-flex items-center space-x-2 bg-gradient-to-r from-blush-400 via-blush-500 to-rose-dusty text-white px-8 py-3.5 rounded-full shadow-md hover:shadow-lg hover:scale-105 transition duration-300 font-medium text-sm sm:text-base group">
+                <span>Explore Your Surprise</span>
+                <i class="fas fa-arrow-down transition-transform group-hover:translate-y-1"></i>
+            </a>
+        </section>
+
+        <!-- Section 1: Open When Letters -->
+        <section id="letters-section" class="py-16 px-4 max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="text-xs font-bold text-blush-500 uppercase tracking-widest">Envelopes Sealed With Love</span>
+                <h2 class="font-serif text-3xl sm:text-4xl text-rose-dark font-bold mt-1 mb-2">Open-When Letters</h2>
+                <p class="text-rose-dark/70 text-sm sm:text-base">Tap any envelope to unfold a letter whenever you need me</p>
+                <div class="w-16 h-0.5 bg-blush-300 mx-auto rounded-full mt-3"></div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="lettersGrid">
+                <!-- Dynamic Pastel Envelopes injected via JS -->
+            </div>
+        </section>
+
+        <!-- Section 2: Reasons Why I Love You Card Deck -->
+        <section class="py-16 px-4 max-w-5xl mx-auto">
+            <div class="text-center mb-10">
+                <span class="text-xs font-bold text-blush-500 uppercase tracking-widest">Little Pieces of My Heart</span>
+                <h2 class="font-serif text-3xl sm:text-4xl text-rose-dark font-bold mt-1 mb-2">Reasons Why I Love You</h2>
+                <p class="text-rose-dark/70 text-sm sm:text-base">Tap each card to reveal a romantic reason or shared promise</p>
+                <div class="w-16 h-0.5 bg-blush-300 mx-auto rounded-full mt-3"></div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" id="reasonsGrid">
+                <!-- Dynamic Reason Cards -->
+            </div>
+        </section>
+
+        <!-- Section 3: Soft Connection Map Visualizer -->
+        <section class="py-16 px-4 max-w-5xl mx-auto">
+            <div class="text-center mb-8">
+                <span class="text-xs font-bold text-blush-500 uppercase tracking-widest">Always Connected</span>
+                <h2 class="font-serif text-3xl sm:text-4xl text-rose-dark font-bold mt-1 mb-2">Two Hearts, One Rhythm</h2>
+                <p class="text-rose-dark/70 text-sm sm:text-base">No matter the physical distance, our hearts beat in harmony</p>
+            </div>
+
+            <div class="glass-card rounded-3xl p-4 sm:p-6 shadow-lg overflow-hidden relative border border-white">
+                <div class="w-full h-64 sm:h-80 relative rounded-2xl bg-gradient-to-br from-cream via-blush-50 to-lavender-light/40 overflow-hidden shadow-inner border border-blush-100">
+                    <canvas id="mapCanvas" class="w-full h-full block"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Special Birthday Unboxing -->
+        <section class="py-20 px-4 max-w-4xl mx-auto text-center">
+            <div class="glass-card p-8 sm:p-12 rounded-3xl shadow-xl relative border-2 border-blush-200 overflow-hidden">
+                <span class="text-xs font-bold text-blush-500 uppercase tracking-widest">Your Grand Surprise</span>
+                <h2 class="font-serif text-3xl sm:text-5xl text-rose-dark font-bold mt-1 mb-4">Your Birthday Present 🎁</h2>
+                <p class="text-rose-dark/70 mb-8 max-w-md mx-auto text-sm sm:text-base">I wrapped something very special for you. Tap the gift box below to unwrap your ultimate birthday letter!</p>
+
+                <!-- Interactive Gift Box -->
+                <div class="my-8 inline-block cursor-pointer group" onclick="openVirtualGift()">
+                    <div id="giftBox" class="relative w-40 h-40 sm:w-48 sm:h-48 mx-auto transition-transform duration-300 group-hover:scale-105">
+                        <!-- Box Base -->
+                        <div class="absolute bottom-0 w-full h-32 sm:h-36 bg-gradient-to-tr from-blush-400 to-blush-300 rounded-2xl shadow-xl flex items-center justify-center border border-blush-200">
+                            <!-- Ribbons -->
+                            <div class="w-8 h-full bg-gold-light shadow-sm"></div>
+                            <div class="h-8 w-full bg-gold-light shadow-sm absolute"></div>
+                        </div>
+                        <!-- Box Lid -->
+                        <div id="giftLid" class="absolute top-2 -left-2 w-[108%] h-12 sm:h-14 bg-gradient-to-r from-blush-300 to-rose-dusty rounded-xl shadow-md border border-white/60 transition-all duration-700 z-10 flex items-center justify-center">
+                            <div class="w-8 h-full bg-gold-light"></div>
+                            <!-- Bow -->
+                            <div class="absolute -top-6 text-gold text-4xl sm:text-5xl drop-shadow">🎀</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-xs text-blush-500 font-medium tracking-wide uppercase animate-pulse">
+                    Tap the gift box to open!
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-12 text-center text-rose-dark/70 text-sm border-t border-blush-200/60 glass-card mt-12">
+            <p class="font-cursive text-2xl text-blush-600 mb-2">I love you more than anything else in the world.</p>
+            <p>© <span id="currentYear"></span> for My Favorite Girl 💕</p>
+        </footer>
+
+    </main>
+
+    <!-- Modal for Open-When Letters -->
+    <div id="letterModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-rose-dark/40 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div class="parchment-sheet max-w-xl w-full p-6 sm:p-10 rounded-3xl shadow-2xl relative border border-gold-light transform scale-95 transition-transform duration-300" id="letterModalCard">
+            <button onclick="closeLetterModal()" class="no-print absolute top-4 right-4 w-9 h-9 rounded-full bg-blush-100 text-rose-dark hover:bg-blush-500 hover:text-white transition flex items-center justify-center shadow-sm">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="modalLetterCategory" class="text-xs font-bold text-blush-500 uppercase tracking-widest mb-1">Open When...</div>
+            <h3 id="modalLetterTitle" class="font-serif text-2xl sm:text-3xl text-rose-dark font-bold mb-3">Letter Title</h3>
+            <div class="w-12 h-0.5 bg-blush-400 mb-6 rounded-full"></div>
+            
+            <div id="modalLetterBody" class="font-serif text-base sm:text-lg text-rose-dark leading-relaxed max-h-80 overflow-y-auto pr-2 whitespace-pre-line">
+                <!-- Content injected via JS -->
+            </div>
+
+            <div class="mt-8 pt-4 border-t border-blush-200/50 flex justify-between items-center">
+                <span class="text-xs text-rose-dusty font-serif italic">Sealed in my heart</span>
+                <span class="font-handwriting text-2xl text-blush-600">Forever Yours 💕</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Grand Birthday Love Letter ("The Special Letter") -->
+    <div id="specialLetterModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-rose-dark/50 backdrop-blur-md hidden opacity-0 transition-opacity duration-300 overflow-y-auto">
+        <div id="printableLetter" class="parchment-sheet max-w-3xl w-full p-6 sm:p-12 rounded-3xl shadow-2xl relative border-2 border-gold-light my-auto transform scale-95 transition-transform duration-300">
+            
+            <!-- Modal Close & Action Header -->
+            <div class="no-print absolute top-4 right-4 flex items-center space-x-2">
+                <button onclick="printLetter()" class="w-9 h-9 rounded-full bg-blush-100 text-rose-dark hover:bg-blush-500 hover:text-white transition flex items-center justify-center shadow-sm" title="Print/Save Letter">
+                    <i class="fas fa-print text-sm"></i>
+                </button>
+                <button onclick="closeSpecialLetterModal()" class="w-9 h-9 rounded-full bg-blush-100 text-rose-dark hover:bg-blush-500 hover:text-white transition flex items-center justify-center shadow-sm">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 mx-auto mb-2 rounded-full wax-seal text-white flex items-center justify-center text-xl shadow-md">
+                    🤍
+                </div>
+                <span class="text-xs font-bold text-blush-500 uppercase tracking-widest">My Birthday Love Letter For You</span>
+                <h2 class="font-serif text-3xl sm:text-4xl text-rose-dark font-bold mt-1">To My Favorite Girl in the World</h2>
+            </div>
+
+            <div class="w-20 h-0.5 bg-gradient-to-r from-transparent via-blush-400 to-transparent mx-auto mb-6"></div>
+
+            <!-- Scrollable Letter Text Container with clean spacing and preserved spaces -->
+            <div id="typewriterTarget" class="font-serif text-base sm:text-lg text-rose-dark leading-relaxed max-h-[50vh] sm:max-h-[55vh] overflow-y-auto pr-3 space-y-3 px-2 sm:px-4 whitespace-pre-wrap custom-scrollbar">
+                <!-- Dynamic text injected via typewriter script -->
+            </div>
+
+            <div class="mt-10 pt-6 border-t border-blush-200/60 flex flex-col sm:flex-row justify-between items-center text-center sm:text-left gap-4">
+                <div>
+                    <div class="font-serif text-xs text-rose-dusty">Written with all my heart</div>
+                    <div class="font-serif text-sm font-bold text-rose-dark">On Your Birthday 🎂</div>
+                </div>
+                <div class="font-handwriting text-3xl sm:text-4xl text-blush-600">
+                    Your Dummy, Taha ❤️
+                </div>
+            </div>
+
+            <div class="no-print mt-8 text-center">
+                <button onclick="closeSpecialLetterModal()" class="bg-gradient-to-r from-blush-400 to-blush-500 text-white px-8 py-3 rounded-full font-medium shadow-md hover:scale-105 transition text-sm">
+                    Keep This Letter Safe in My Heart 💖
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script>
+        /* ==========================================================================
+           1. DATA CONFIGURATION (PERSONALIZABLE)
+           ========================================================================== */
+        document.getElementById('currentYear').innerText = new Date().getFullYear();
+
+        // Map Coordinates (Soft Canvas)
+        const MAP_CONFIG = {
+            loc1: { name: "My Heart", x: 0.32, y: 0.42 },
+            loc2: { name: "Your Heart", x: 0.68, y: 0.38 }
+        };
+
+        // Open-When Letters Data
+        const LETTERS = [
+            {
+                title: "Open when you miss me",
+                icon: "fa-heart",
+                category: "Missing You",
+                content: "Close your eyes for a moment and take a deep breath. Right now, at this exact second, I am thinking of you. Place your hand over your heart, that beat is our love, keeping us connected no matter how far apart we are. I love you so much!"
+            },
+            {
+                title: "Open on your birthday morning",
+                icon: "fa-cake-candles",
+                category: "Birthday Special",
+                content: "Good morning to my Munchkin! Today the world was blessed with the most wonderful, beautiful person. Smile big today, eat something sweet, and know that I am sending you a thousand virtual hugs and kisses right now"
+            },
+            {
+                title: "Open when you can't sleep",
+                icon: "fa-moon",
+                category: "Late Night",
+                content: "Nighttime can feel quiet without each other, but look up at the soft stars outside, they are the same stars shining over me. Wrap yourself tight in your blanket, imagine my arms wrapped warm around you, and rest easy, my love."
+            },
+            {
+                title: "Open when you feel stressed",
+                icon: "fa-cloud-sun",
+                category: "Comfort",
+                content: "Take a slow breath in... and out. You are so gentle, capable, and strong. Don't carry the weight of the world on your shoulders today. I am always right here in your corner cheering you on no matter what"
+            },
+            {
+                title: "Open when you need a smile",
+                icon: "fa-face-smile-beam",
+                category: "Joy & Cheer",
+                content: "Remember the silly jokes we make, or how we lose track of time talking about nothing for hours? Your laugh is my absolute favorite sound in the universe. Keep smiling, beautiful!"
+            },
+            {
+                title: "Open when you need a hug",
+                icon: "fa-hand-holding-heart",
+                category: "Warmth",
+                content: "Consider this envelope a non-expiring coupon for a tight, soft, infinite warm hug. Squeeze a pillow, close your eyes, and feel me right next to you holding you warm and safe."
+            }
+        ];
+
+        // Reasons Why I Love You Data
+        const REASONS = [
+           "Your sweet, beautiful smile that lights up my entire universe.",
+            "How gentle and kind you are with everyone around you.",
+            "The cute way you laugh when you get super happy or excited.",
+            "How safe and happy I feel whenever we talk.",
+            "Your voice, it is literally my favorite sound in the world.",
+            "The way you believe in me even when I doubt myself.",
+            "How we can share quiet moments together without any pressure.",
+            "Your cozy morning texts that instantly make my day bright.",
+            "The warmth and depth of your gentle, loving heart.",
+            "Because you are my soulmate and my best friend in one.",
+            "How special and cherished you make me feel.",
+            "Simply because you are YOU, and I choose you every single day."
+        ];
+
+        // Grand Birthday Love Letter Text
+        const GRAND_LETTER = `My Dearest Love,
+
+Happy Birthday, my beautiful girl!
+
+I just wanted you to know how much I love you. From the moment you entered my life, everything became softer, sweeter, and infinitely brighter.
+
+Thank you for your warmth, your laughter, your patience, and the boundless love you give me every single day. Being loved by you is the sweetest gift I have ever known.
+
+On your special day, I wish you endless happiness, gentle peace, and all the magical moments you deserve. I can't wait for the day when I get to celebrate every single birthday right next to you, holding your hand.
+
+Until then, know that you are deeply loved, cherished, and treasured beyond words.
+
+Happy Birthday, my Jana. ❤️`;
+
+        /* ==========================================================================
+           2. SOFT BACKGROUND PARTICLES (SOFT ROSES & GLOWING SPECKS)
+           ========================================================================== */
+        const pCanvas = document.getElementById('particleCanvas');
+        const pCtx = pCanvas.getContext('2d');
+        let particles = [];
+
+        function resizePCanvas() {
+            pCanvas.width = window.innerWidth;
+            pCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizePCanvas);
+        resizePCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * pCanvas.width;
+                this.y = pCanvas.height + Math.random() * 40;
+                this.size = Math.random() * 10 + 4;
+                this.speedY = Math.random() * 0.8 + 0.3;
+                this.speedX = Math.sin(Math.random() * Math.PI) * 0.4;
+                this.opacity = Math.random() * 0.4 + 0.2;
+                this.color = Math.random() > 0.5 ? '249, 163, 194' : '255, 209, 220';
+            }
+            update() {
+                this.y -= this.speedY;
+                this.x += Math.sin(this.y * 0.008) * 0.4;
+                if (this.y < -20) this.reset();
+            }
+            draw() {
+                pCtx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
+                pCtx.beginPath();
+                pCtx.arc(this.x, this.y, this.size / 2, 0, Math.PI * 2);
+                pCtx.fill();
+            }
+        }
+
+        for (let i = 0; i < 40; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        /* ==========================================================================
+           3. SOFT MAP CANVAS VISUALIZER ("TWO HEARTS, ONE RHYTHM")
+           ========================================================================== */
+        const mapCanvas = document.getElementById('mapCanvas');
+        const mapCtx = mapCanvas.getContext('2d');
+        let mapProgress = 0;
+
+        function renderMap() {
+            const width = mapCanvas.offsetWidth;
+            const height = mapCanvas.offsetHeight;
+            mapCanvas.width = width;
+            mapCanvas.height = height;
+
+            const p1 = { x: width * MAP_CONFIG.loc1.x, y: height * MAP_CONFIG.loc1.y };
+            const p2 = { x: width * MAP_CONFIG.loc2.x, y: height * MAP_CONFIG.loc2.y };
+
+            // Clear Canvas
+            mapCtx.clearRect(0, 0, width, height);
+
+            // Soft grid background
+            mapCtx.strokeStyle = 'rgba(244, 108, 155, 0.08)';
+            mapCtx.lineWidth = 1;
+            for (let x = 0; x < width; x += 25) {
+                mapCtx.beginPath();
+                mapCtx.moveTo(x, 0);
+                mapCtx.lineTo(x, height);
+                mapCtx.stroke();
+            }
+
+            // Curve Arc
+            const controlX = (p1.x + p2.x) / 2;
+            const controlY = Math.min(p1.y, p2.y) - 50;
+
+            // Dashed Arc Line
+            mapCtx.beginPath();
+            mapCtx.setLineDash([5, 5]);
+            mapCtx.moveTo(p1.x, p1.y);
+            mapCtx.quadraticCurveTo(controlX, controlY, p2.x, p2.y);
+            mapCtx.strokeStyle = 'rgba(235, 59, 122, 0.35)';
+            mapCtx.lineWidth = 2;
+            mapCtx.stroke();
+            mapCtx.setLineDash([]);
+
+            // Moving Glowing Pulse Along Curve
+            mapProgress = (mapProgress + 0.006) % 1;
+            const t = mapProgress;
+            const currX = (1 - t) * (1 - t) * p1.x + 2 * (1 - t) * t * controlX + t * t * p2.x;
+            const currY = (1 - t) * (1 - t) * p1.y + 2 * (1 - t) * t * controlY + t * t * p2.y;
+
+            mapCtx.beginPath();
+            mapCtx.arc(currX, currY, 6, 0, Math.PI * 2);
+            mapCtx.fillStyle = '#eb3b7a';
+            mapCtx.shadowColor = '#eb3b7a';
+            mapCtx.shadowBlur = 12;
+            mapCtx.fill();
+            mapCtx.shadowBlur = 0;
+
+            // Draw Heart Pins
+            drawHeartPin(p1.x, p1.y, MAP_CONFIG.loc1.name);
+            drawHeartPin(p2.x, p2.y, MAP_CONFIG.loc2.name);
+        }
+
+        function drawHeartPin(x, y, label) {
+            // Pulse Ring
+            mapCtx.beginPath();
+            mapCtx.arc(x, y, 10, 0, Math.PI * 2);
+            mapCtx.strokeStyle = 'rgba(235, 59, 122, 0.4)';
+            mapCtx.lineWidth = 2;
+            mapCtx.stroke();
+
+            // Heart Icon Dot
+            mapCtx.beginPath();
+            mapCtx.arc(x, y, 5, 0, Math.PI * 2);
+            mapCtx.fillStyle = '#eb3b7a';
+            mapCtx.fill();
+
+            // Text Label
+            mapCtx.font = '500 12px "Plus Jakarta Sans", sans-serif';
+            mapCtx.fillStyle = '#5c1d2e';
+            mapCtx.textAlign = 'center';
+            mapCtx.fillText(label, x, y + 22);
+        }
+
+        function loopMap() {
+            renderMap();
+            requestAnimationFrame(loopMap);
+        }
+        window.addEventListener('resize', renderMap);
+        setTimeout(loopMap, 100);
+
+        /* ==========================================================================
+           4. RENDER ENVELOPES & REASONS DECK
+           ========================================================================== */
+        // Render Envelopes
+        const lettersContainer = document.getElementById('lettersGrid');
+        LETTERS.forEach((letter, index) => {
+            const letterHtml = `
+                <div class="glass-card p-6 rounded-2xl border border-white hover:border-blush-300 transition-all duration-300 shadow-sm group cursor-pointer flex flex-col justify-between relative overflow-hidden" onclick="openLetterModal(${index})">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="w-10 h-10 rounded-full bg-blush-100 text-blush-500 flex items-center justify-center text-lg group-hover:scale-110 group-hover:bg-blush-400 group-hover:text-white transition duration-300">
+                            <i class="fas ${letter.icon}"></i>
+                        </div>
+                        <div class="w-7 h-7 rounded-full wax-seal text-white flex items-center justify-center text-[10px] shadow-sm">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-rose-dusty uppercase tracking-widest">${letter.category}</span>
+                        <h3 class="font-serif text-lg font-bold text-rose-dark mt-0.5 mb-2 group-hover:text-blush-600 transition">${letter.title}</h3>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-blush-100 flex items-center justify-between text-xs text-blush-500 font-medium">
+                        <span>Unfold Letter</span>
+                        <i class="fas fa-envelope-open transition-transform group-hover:translate-x-1"></i>
+                    </div>
+                </div>
+            `;
+            lettersContainer.insertAdjacentHTML('beforeend', letterHtml);
+        });
+
+        // Render Reasons Cards
+        const reasonsContainer = document.getElementById('reasonsGrid');
+        REASONS.forEach((reason, index) => {
+            const cardHtml = `
+                <div class="glass-card p-4 rounded-2xl border border-white hover:border-blush-300 transition-all duration-300 shadow-sm flex flex-col justify-between cursor-pointer group" onclick="revealReason(this)">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="w-6 h-6 rounded-full bg-blush-100 text-blush-600 font-bold text-[10px] flex items-center justify-center group-hover:bg-blush-500 group-hover:text-white transition">#${index + 1}</span>
+                        <i class="fas fa-sparkles text-gold text-xs group-hover:rotate-12 transition"></i>
+                    </div>
+                    <p class="text-xs sm:text-sm text-rose-dark/90 font-medium leading-relaxed my-1">${reason}</p>
+                    <div class="text-[10px] text-blush-400 text-right mt-2 font-cursive text-sm">Forever Reason</div>
+                </div>
+            `;
+            reasonsContainer.insertAdjacentHTML('beforeend', cardHtml);
+        });
+
+        function revealReason(element) {
+            confetti({
+                particleCount: 18,
+                spread: 35,
+                origin: { y: 0.75 },
+                colors: ['#eb3b7a', '#f9a3c2', '#f7e7ce']
+            });
+            element.classList.add('ring-2', 'ring-blush-300');
+        }
+
+        /* ==========================================================================
+           5. MODAL INTERACTION LOGIC
+           ========================================================================== */
+        function openLetterModal(index) {
+            const letter = LETTERS[index];
+            document.getElementById('modalLetterCategory').innerText = letter.category;
+            document.getElementById('modalLetterTitle').innerText = letter.title;
+            document.getElementById('modalLetterBody').innerText = letter.content;
+
+            const modal = document.getElementById('letterModal');
+            const card = document.getElementById('letterModalCard');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                card.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeLetterModal() {
+            const modal = document.getElementById('letterModal');
+            const card = document.getElementById('letterModalCard');
+            modal.classList.add('opacity-0');
+            card.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        /* ==========================================================================
+           6. UNBOXING & GRAND BIRTHDAY LETTER TYPEWRITER
+           ========================================================================== */
+        let giftOpened = false;
+
+        function openVirtualGift() {
+            if (!giftOpened) {
+                // Lift Box Lid
+                const lid = document.getElementById('giftLid');
+                lid.style.transform = 'translateY(-55px) rotate(-8deg)';
+
+                // Confetti Explosion
+                confetti({
+                    particleCount: 120,
+                    spread: 80,
+                    origin: { y: 0.6 },
+                    colors: ['#eb3b7a', '#f9a3c2', '#ffd1dc', '#f7e7ce']
+                });
+
+                setTimeout(() => {
+                    showSpecialLetterModal();
+                }, 600);
+
+                giftOpened = true;
+            } else {
+                showSpecialLetterModal();
+            }
+        }
+
+        function showSpecialLetterModal() {
+            const modal = document.getElementById('specialLetterModal');
+            const inner = document.getElementById('printableLetter');
+            modal.classList.remove('hidden');
+            
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                inner.classList.remove('scale-95');
+                triggerTypewriter();
+            }, 10);
+        }
+
+        function closeSpecialLetterModal() {
+            const modal = document.getElementById('specialLetterModal');
+            const inner = document.getElementById('printableLetter');
+            modal.classList.add('opacity-0');
+            inner.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        let typewriterTriggered = false;
+        function triggerTypewriter() {
+            if (typewriterTriggered) return;
+            typewriterTriggered = true;
+
+            const target = document.getElementById('typewriterTarget');
+            target.innerText = "";
+            let i = 0;
+            const speed = 25; // Speed in ms
+
+            function typeChar() {
+                if (i < GRAND_LETTER.length) {
+                    target.innerText += GRAND_LETTER.charAt(i);
+                    target.scrollTop = target.scrollHeight; // Auto-scrolls down as new text types
+                    i++;
+                    setTimeout(typeChar, speed);
+                }
+            }
+            typeChar();
+        }
+
+        function printLetter() {
+            window.print();
+        }
+
+  /* ==========================================================================
+   7. WEB AUDIO API SOFT ROMANTIC PIANO SYNTHESIZER (FIXED)
+   ========================================================================== */
+let audioCtx = null;
+let isPlaying = false;
+let masterGain = null;
+let melodyInterval = null;
+
+// F Major Pentatonic Soft Chords
+const chordNotes = [220.00, 261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 523.25];
+
+function initAudio() {
+    if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+        masterGain = audioCtx.createGain();
+        masterGain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        masterGain.connect(audioCtx.destination);
+    }
+}
+
+function playSoftChord(freq, duration = 3.5) {
+    if (!audioCtx || !isPlaying) return;
+    try {
+        const osc = audioCtx.createOscillator();
+        const noteGain = audioCtx.createGain();
+
+        osc.type = 'sine'; // Pure soft tone
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+        // Gentle Attack and Fade Out
+        noteGain.gain.setValueAtTime(0.7, audioCtx.currentTime);
+        noteGain.gain.exponentialRampToValueAtTime(0.35, audioCtx.currentTime + 0.4);
+        noteGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+
+        osc.connect(noteGain);
+        noteGain.connect(masterGain);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+    } catch (e) {
+        console.error("Audio error:", e);
+    }
+}
+
+function startAmbientLoop() {
+    if (melodyInterval) clearInterval(melodyInterval);
+    
+    // Play first chord right away
+    const initialNote = chordNotes[Math.floor(Math.random() * chordNotes.length)];
+    playSoftChord(initialNote, 3.5);
+
+    melodyInterval = setInterval(() => {
+        if (!isPlaying) return;
+        const note1 = chordNotes[Math.floor(Math.random() * chordNotes.length)];
+        playSoftChord(note1, 3.5);
+
+        // Secondary harmony note
+        setTimeout(() => {
+            if (!isPlaying) return;
+            const note2 = chordNotes[Math.floor(Math.random() * chordNotes.length)];
+            playSoftChord(note2, 3.0);
+        }, 600);
+    }, 1400);
+}
+
+async function toggleAudio() {
+    initAudio();
+
+    // Ensure AudioContext is resumed on user gesture
+    if (audioCtx.state === 'suspended') {
+        await audioCtx.resume();
+    }
+
+    const icon = document.getElementById('musicIcon');
+    const status = document.getElementById('musicStatus');
+
+    if (!isPlaying) {
+        isPlaying = true;
+        startAmbientLoop();
+        if (icon) icon.className = 'fas fa-pause text-xs';
+        if (status) status.innerText = 'Playing Soft Chords';
+    } else {
+        isPlaying = false;
+        if (melodyInterval) clearInterval(melodyInterval);
+        if (icon) icon.className = 'fas fa-play text-xs';
+        if (status) status.innerText = 'Music Paused';
+    }
+}
+
+function setVolume(val) {
+    if (masterGain && audioCtx) {
+        masterGain.gain.setValueAtTime(val, audioCtx.currentTime);
+    }
+}
+    </script>
+</body>
+</html> 
